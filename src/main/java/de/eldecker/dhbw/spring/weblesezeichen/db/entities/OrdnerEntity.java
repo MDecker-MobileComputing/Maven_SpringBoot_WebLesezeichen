@@ -1,10 +1,16 @@
-package de.eldecker.dhbw.spring.weblesezeichen.db;
+package de.eldecker.dhbw.spring.weblesezeichen.db.entities;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.AUTO;
+
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -27,12 +33,31 @@ public class OrdnerEntity {
     /** Ordnername (Anzeigename), z.B. "Nachrichtenseiten". */
     private String name;
     
+    
     /**
      * Direkter Vorgängerknoten, also der Ordner, in dem
-     * der vorliegende Ordner enthalten ist.
+     * der vorliegende Ordner als Unterordner enthalten ist.
      */
+    @ManyToOne( fetch = LAZY )
+    @JoinColumn( name = "vater_knoten_fk", referencedColumnName = "id" )    
     private OrdnerEntity vater;
+    
+    
+    @OneToMany(mappedBy = "vater", fetch = LAZY)
+    private List<OrdnerEntity> kinder;
 
+    // ...
+
+    public List<OrdnerEntity> getKinder() {
+        
+        return kinder;
+    }
+    
+    public void setKinder( List<OrdnerEntity> kinderListe ) {
+        
+        kinder = kinderListe;
+    }
+    
     
     /**
      * Default-Konstruktor, obligatorisch für JPA! 
@@ -68,6 +93,18 @@ public class OrdnerEntity {
     public void setName( String name ) {
         
         this.name = name;
+    }
+    
+    
+    public OrdnerEntity getVater() {
+        
+        return vater;
+    }
+
+
+    public void setVater( OrdnerEntity vater ) {
+        
+        this.vater = vater;
     }
 
 

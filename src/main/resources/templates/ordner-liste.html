@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Web-Lesezeichen: Liste aller Ordner (alphabetisch)</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../../styles.css">
+</head>
+<body>
+
+    <h1>Web-Lesezeichen: Liste aller Ordner (alphabetisch)</h1>
+
+    <div th:each="ordner : ${ordner_liste}">
+        <a th:href="@{ordner/{id}(id=${ordner.id})}" th:text="${ordner.name}">Ordnername</a>
+    </div>
+    <br>
+    <p>
+        <span class="fett">Anzahl der Ordner:</span>
+        &nbsp;
+        <span th:text="${ordner_liste.size()}">0</span>
+    </p>
+
+</body>

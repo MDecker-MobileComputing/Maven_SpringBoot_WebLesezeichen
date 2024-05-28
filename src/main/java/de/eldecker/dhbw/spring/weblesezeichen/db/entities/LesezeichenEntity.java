@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.weblesezeichen.db;
+package de.eldecker.dhbw.spring.weblesezeichen.db.entities;
 
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.AUTO;
@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
  * Eigentliches Lesezeichen, ist in genau einem Ordner enhalten.
  */
 @Entity
-@Table(name = "Ordner")
+@Table(name = "Lesezeichen")
 public class LesezeichenEntity {
 
     /**
@@ -32,7 +32,8 @@ public class LesezeichenEntity {
     private String url;
     
     /**
-     * Referenz auf Ordner, in dem dieses Lesezeichen enthalten ist.
+     * Referenz auf Ordner, in dem dieses Lesezeichen enthalten ist
+     * (also auf ein Objekt derselben Klassen!)
      */
     @ManyToOne( fetch = EAGER )
     @JoinColumn( name = "ordner_fk", referencedColumnName = "id" )
@@ -76,6 +77,28 @@ public class LesezeichenEntity {
     public Long getId() {
         
         return id;
+    }
+    
+    
+    /**
+     * Getter für den Ordner, in dem das Lesezeichen liegt.
+     * 
+     * @return Ordner
+     */
+    public OrdnerEntity getOrdner() {
+        
+        return ordner;
+    }
+
+
+    /**
+     * Setter für den Ordner, in dem das Lesezeichen liegt.
+     * 
+     * @param ordner Ordner, in dem Lesezeichen liegt.
+     */
+    public void setOrdner( OrdnerEntity ordner ) {
+        
+        this.ordner = ordner;
     }
 
 
