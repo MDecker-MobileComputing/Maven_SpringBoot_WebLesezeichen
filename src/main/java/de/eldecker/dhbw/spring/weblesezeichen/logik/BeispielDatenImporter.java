@@ -89,7 +89,7 @@ public class BeispielDatenImporter implements ApplicationRunner {
                                                                           "https://www.faz.net/",
                                                                           wurzelPrivat );
 
-            final LesezeichenEntity lesezeichen3 = new LesezeichenEntity( "heise Newsticker", 
+            final LesezeichenEntity lesezeichen3 = new LesezeichenEntity( "Heise-Newsticker", 
                                                                           "https://www.heise.de/newsticker/",
                                                                           wurzelStudiumInfo );            
             final LesezeichenEntity lesezeichen4 = new LesezeichenEntity( "Spring: JPA Query Methods", 

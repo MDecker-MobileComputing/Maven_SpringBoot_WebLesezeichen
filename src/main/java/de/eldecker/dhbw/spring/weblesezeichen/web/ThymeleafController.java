@@ -2,7 +2,9 @@ package de.eldecker.dhbw.spring.weblesezeichen.web;
 
 import static java.lang.String.format;
 
+import de.eldecker.dhbw.spring.weblesezeichen.db.entities.LesezeichenEntity;
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
+import de.eldecker.dhbw.spring.weblesezeichen.db.repos.LesezeichenRepo;
 import de.eldecker.dhbw.spring.weblesezeichen.db.repos.OrdnerRepo;
 import de.eldecker.dhbw.spring.weblesezeichen.logik.OrdnerException;
 
@@ -32,20 +34,22 @@ public class ThymeleafController {
 
     private final static Logger LOG = LoggerFactory.getLogger( ThymeleafController.class );
     
-    /**
-     * Repo-Bean für Zugriff auf Tabelle mit Ordnern.
-     */
-    @Autowired
+    /** Repo-Bean für Zugriff auf Tabelle mit Ordnern. */
     private OrdnerRepo _ordnerRepo;
+    
+    /** Repo-Bean für Zugriff auf Tabelle mit Lesezeichen. */
+    private LesezeichenRepo _lesezeichenRepo;
 
 
     /**
      * Konstruktor für <i>Dependency Injection</i>.
      */
     @Autowired
-    public ThymeleafController( OrdnerRepo ordnerRepo ) {
+    public ThymeleafController( OrdnerRepo ordnerRepo,
+                                LesezeichenRepo lesezeichenRepo ) {
 
-        _ordnerRepo = ordnerRepo;
+        _ordnerRepo      = ordnerRepo;
+        _lesezeichenRepo = lesezeichenRepo;
     }
     
     
@@ -103,7 +107,7 @@ public class ThymeleafController {
      * @return Name der Template-Datei "ordner-liste.html" ohne Datei-Endung
      */
     @GetMapping( "/ordnerliste" )
-    public String flacheListe( Model model ) {
+    public String ordnerListe( Model model ) {
 
         final List<OrdnerEntity> ordnerListe = _ordnerRepo.findAllByOrderByNameIgnoreCase();
 
@@ -133,13 +137,31 @@ public class ThymeleafController {
         final OrdnerEntity ordner = ordnerOptional.get();
                                         
         final List<OrdnerEntity> unterordnerListe = 
-                _ordnerRepo.findByVater_IdOrderByNameAsc( id );
+                        _ordnerRepo.findByVater_IdOrderByNameAsc( id );
         
         model.addAttribute( "ordner"          , ordner           );
         model.addAttribute( "unterordnerliste", unterordnerListe );
         
         return "ordner-details";
     }
-
+    
+    
+    /**
+     * Methoden zum Anzeigen einer flachen Liste aller Lesezeichen.
+     * 
+     * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden.
+     * 
+     * @return Name der Template-Datei "lesezeichen-liste.html" ohne Datei-Endung  
+     */
+    @GetMapping( "/lesezeichenliste" )
+    public String lesezeichenListe( Model model ) {
+        
+        final List<LesezeichenEntity> lesezeichenListe = 
+                                _lesezeichenRepo.findAllByOrderByNameAsc();
+        
+        model.addAttribute( "lesezeichenliste", lesezeichenListe );
+        
+        return "lesezeichen-liste";
+    }
 
 }

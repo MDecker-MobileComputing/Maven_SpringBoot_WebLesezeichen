@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Web-Lesezeichen: Liste aller Lesezeichen (alphabetisch)</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../../styles.css">
+</head>
+<body>
+
+    <h1>Liste aller Lesezeichen (alphabetisch)</h1>
+
+    <p>
+        Anzahl Lesezeichen:
+        <span th:text="${#lists.size(lesezeichenliste)}"></span>
+    </p>
+    <br><br>
+
+    <div th:each="lesezeichen : ${lesezeichenliste}">
+        <a th:href="${lesezeichen.getUrl()}"
+           target="_blank"
+           th:utext="${lesezeichen.getName()} + ' ↗'"></a>
+        <br><br>
+    </div>
+
+</body>
