@@ -81,22 +81,28 @@ public class BeispielDatenImporter implements ApplicationRunner {
             _ordnerRepo.saveAll( ordnerListe );                 
 
             
-            final LesezeichenEntity lesezeichen1 = new LesezeichenEntity( "Fußballnachrichten", 
+            final LesezeichenEntity lz1 = new LesezeichenEntity( "Fußballnachrichten", 
                                                                            "https://www.kicker.de/",
                                                                            wurzelPrivat );
             
-            final LesezeichenEntity lesezeichen2 = new LesezeichenEntity( "FAZ (Nachrichten) ", 
-                                                                          "https://www.faz.net/",
-                                                                          wurzelPrivat );
+            final LesezeichenEntity lz2 = new LesezeichenEntity( "FAZ (Nachrichten) ", 
+                                                                 "https://www.faz.net/",
+                                                                 wurzelPrivat );
 
-            final LesezeichenEntity lesezeichen3 = new LesezeichenEntity( "Heise-Newsticker", 
-                                                                          "https://www.heise.de/newsticker/",
-                                                                          wurzelStudiumInfo );            
-            final LesezeichenEntity lesezeichen4 = new LesezeichenEntity( "Spring: JPA Query Methods", 
-                                                                          "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.query-creation",
-                                                                          wurzelStudiumInfo );            
-                              
-            final List<LesezeichenEntity> lesezeichenListe = List.of( lesezeichen1, lesezeichen2, lesezeichen3, lesezeichen4 );
+            final LesezeichenEntity lz3 = new LesezeichenEntity( "Heise-Newsticker", 
+                                                                 "https://www.heise.de/newsticker/",
+                                                                 wurzelStudiumInfo );            
+            final LesezeichenEntity lz4 = new LesezeichenEntity( "Spring: JPA Query Methods", 
+                                                                 "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.query-creation",
+                                                                 wurzelStudiumInfo );            
+            final LesezeichenEntity lz5 = new LesezeichenEntity( "Java 21: API-Doc", 
+                                                                 "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/module-summary.html",
+                                                                 wurzelStudiumInfo );              
+            final LesezeichenEntity lz6 = new LesezeichenEntity( "Unicum: Tipps fürs Studium",
+                                                                 "https://www.unicum.de/studium-tipps",
+                                                                 wurzelStudium );
+            
+            final List<LesezeichenEntity> lesezeichenListe = List.of( lz1, lz2, lz3, lz4, lz5, lz6 );
             _lesezeichenRepo.saveAll( lesezeichenListe );
         }
     }
