@@ -59,7 +59,7 @@ public class OrdnerEntity {
      */
     @OneToMany( mappedBy = "ordner" )
     @OrderBy( "name ASC" )
-    private List<LesezeichenEntity> lesezeichen = new ArrayList<>(10);
+    private List<LesezeichenEntity> lesezeichen = new ArrayList<>( 10 );
 
 
     /**
@@ -149,8 +149,20 @@ public class OrdnerEntity {
         
         return getVater() == null;
     }
-
     
+    
+
+    /**
+     * Getter für Lesezeichen aus diesem Ordner.
+     * 
+     * @return Liste der Lesezeichen
+     */
+    public List<LesezeichenEntity> getLesezeichen() {
+        
+        return lesezeichen;
+    }
+
+
     /**
      * String-Repräsentation des Objekts zurückgeben.
      *

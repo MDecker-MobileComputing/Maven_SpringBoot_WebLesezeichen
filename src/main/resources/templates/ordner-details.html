@@ -19,6 +19,14 @@
     </div>
     <br><br>
 
+    <div th:each="lesezeichen : ${ordner.getLesezeichen()}">
+        <a th:href="${lesezeichen.getUrl()}"
+           target="_blank"
+           th:utext="${lesezeichen.getName()} + ' ↗'"></a>
+        <br><br>
+    </div>
+    <br><br>
+
     <div th:if="${#lists.isEmpty(unterordnerliste)}">Keine Unterordner</div>
     <div th:unless="${#lists.isEmpty(unterordnerliste)}">
         <span th:text="${#lists.size(unterordnerliste)}"></span> Unterordner:
