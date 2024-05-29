@@ -20,6 +20,11 @@
         <a th:href="${lesezeichen.getUrl()}"
            target="_blank"
            th:utext="${lesezeichen.getName()} + ' ↗'"></a>
+        &nbsp; – &nbsp;
+        Enthalten in Ordner
+        <a th:href="'/app/ordner/' + ${lesezeichen.getOrdner().getId()}"
+           target="_blank"
+           th:utext="${lesezeichen.getOrdner().getName()}"></a>
         <br><br>
     </div>
 

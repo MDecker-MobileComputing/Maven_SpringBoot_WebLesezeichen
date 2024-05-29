@@ -57,6 +57,12 @@ public class LesezeichenEntity {
     /**
      * Konstruktor um {@code name}, {@code url} und {@code ordner},
      * in dem das Lesezeichen enthalten ist, zu setzen.
+     * 
+     * @param name Anzeigename des Lesezeichens, z.B. "Börsennachrichten"
+     * 
+     * @param url Eigentliche URL
+     * 
+     * @param ordner Ordner, in dem das Lesezeichen enthalten ist
      */
     public LesezeichenEntity( String name, String url, OrdnerEntity ordner ) {
 
@@ -79,28 +85,43 @@ public class LesezeichenEntity {
 
 
     /**
-     * Anzeigename des Lesezeichen.
+     * Getter für Anzeigename des Lesezeichen.
      *
-     * @return Name von Lesezeichen, z.B. "Fußballnachrichten".
+     * @return Name von Lesezeichen, z.B. "Fußballnachrichten"
      */
     public String getName() {
 
         return name;
     }
 
-
+    
+    /**
+     * Setter für Anzeigename des Lesezeichen.
+     * 
+     * @param name Name der Lesezeichen, z.B. "Fußballnachrichten"
+     */
     public void setName( String name ) {
 
         this.name = name;
     }
 
 
+    /**
+     * Getter für eigentliche URL.
+     * 
+     * @return URL, für die das Lesezeichen angelegt wurde
+     */
     public String getUrl() {
 
         return url;
     }
 
-
+    
+    /**
+     * Setter für eigentliche URL.
+     * 
+     * @return URL, für die das Lesezeichen angelegt wurde
+     */
     public void setUrl( String url ) {
 
         this.url = url;
@@ -110,7 +131,7 @@ public class LesezeichenEntity {
     /**
      * Getter für den Ordner, in dem das Lesezeichen liegt.
      *
-     * @return Ordner
+     * @return Ordner, der das Lesezeichen enthält.
      */
     public OrdnerEntity getOrdner() {
 
@@ -121,7 +142,7 @@ public class LesezeichenEntity {
     /**
      * Setter für den Ordner, in dem das Lesezeichen liegt.
      *
-     * @param ordner Ordner
+     * @param ordner Ordner, der das Lesezeichen enthält.
      */
     public void setOrdner( OrdnerEntity ordner ) {
 
@@ -174,8 +195,8 @@ public class LesezeichenEntity {
         
         if ( obj instanceof LesezeichenEntity anderesLesezeichen ) {
         
-            return Objects.equals( name  , anderesLesezeichen.name  ) && 
-                   Objects.equals( ordner, anderesLesezeichen.ordner);
+            return Objects.equals( name  , anderesLesezeichen.name   ) && 
+                   Objects.equals( ordner, anderesLesezeichen.ordner );
             
         } else {
             
