@@ -17,5 +17,17 @@
         <a    th:if="${!ordner.istWurzel()}"
               th:href="'/app/ordner/' + ${ordner.getVater().getId()}">Einen Ordner nach oben</a>
     </div>
+    <br><br>
+
+    <div th:if="${#lists.isEmpty(unterordnerliste)}">Keine Unterordner</div>
+    <div th:unless="${#lists.isEmpty(unterordnerliste)}">
+        <span th:text="${#lists.size(unterordnerliste)}"></span> Unterordner:
+        <span th:each="unterordner : ${unterordnerliste}">
+            <a th:href="'/app/ordner/' + ${unterordner.getId()}">
+                <span th:text="${unterordner.getName()}"></span>
+            </a>
+            &nbsp;
+        </span>
+    </div>
 
 </body>

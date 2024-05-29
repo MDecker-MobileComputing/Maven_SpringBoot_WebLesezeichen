@@ -131,8 +131,12 @@ public class ThymeleafController {
         }
         
         final OrdnerEntity ordner = ordnerOptional.get();
-                        
-        model.addAttribute( "ordner", ordner );
+                                        
+        final List<OrdnerEntity> unterordnerListe = 
+                _ordnerRepo.findByVater_IdOrderByNameAsc( id );
+        
+        model.addAttribute( "ordner"          , ordner           );
+        model.addAttribute( "unterordnerliste", unterordnerListe );
         
         return "ordner-details";
     }
