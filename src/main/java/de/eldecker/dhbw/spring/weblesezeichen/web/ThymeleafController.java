@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.weblesezeichen.web;
 
+import static java.lang.String.format;
+
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
 import de.eldecker.dhbw.spring.weblesezeichen.db.repos.OrdnerRepo;
 import de.eldecker.dhbw.spring.weblesezeichen.logik.OrdnerException;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 
 /**
@@ -53,12 +56,13 @@ public class ThymeleafController {
      * 
      * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden.
      * 
-     * @return Name der Template-Datei "fehlermeldung.html" ohne Datei-Endung
+     * @return Name der Template-Datei "fehler.html" ohne Datei-Endung
      */
     @ExceptionHandler( OrdnerException.class )
-    public String exceptionBehandeln( OrdnerException ex, Model model ) {
+    public String ordnerExceptionBehandeln( OrdnerException ex, Model model ) {
         
         final String fehlertext = ex.getMessage();
+        
         LOG.error( fehlertext );        
         model.addAttribute( "fehlermeldung", fehlertext );
         
@@ -66,6 +70,31 @@ public class ThymeleafController {
     }
 
 
+    /**
+     * Fehlerbehandlung für {@code MethodArgumentTypeMismatchException }.
+     * 
+     * @param ex Von Controller-Methode geworfene Exception
+     * 
+     * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden.
+     * 
+     * @return Name der Template-Datei "fehler.html" ohne Datei-Endung
+     */
+    @ExceptionHandler( MethodArgumentTypeMismatchException.class )
+    public String argumentTypeExceptionBehandeln( MethodArgumentTypeMismatchException ex, 
+                                                  Model model) {
+    
+        final String argName = ex.getName();
+        final Object argWert = ex.getValue();
+        
+        final String fehlertext = format( "Ungültiger Wert \"%s\" für Argument \"%s\" übergeben.", 
+                                          argWert, argName );        
+        LOG.error( fehlertext );        
+        model.addAttribute( "fehlermeldung", fehlertext );
+        
+        return "fehler";
+    }
+
+    
     /**
      * Methode zur Anzeige einer flachen Liste aller Ordner.
      *
@@ -100,6 +129,10 @@ public class ThymeleafController {
             
             throw new OrdnerException( "Kein Ordner mit ID=" + id + " gefunden." );
         }
+        
+        final OrdnerEntity ordner = ordnerOptional.get();
+                        
+        model.addAttribute( "ordnername", ordner.getName() );
         
         return "ordner-details";
     }

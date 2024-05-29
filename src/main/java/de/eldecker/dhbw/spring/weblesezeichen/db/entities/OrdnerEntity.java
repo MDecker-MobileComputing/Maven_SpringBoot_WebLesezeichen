@@ -50,12 +50,7 @@ public class OrdnerEntity {
     @JoinColumn( name = "vater_knoten_fk", referencedColumnName = "id" )
     private OrdnerEntity vater;
 
-    
-    @OneToMany(mappedBy = "vater")
-    @OrderBy( "name ASC" )
-    private List<OrdnerEntity> kinder;
 
-   
     /**
      * Im Ordner enthaltene Lesezeichen, welche aufsteigend nach Name
      * sortiert sind; kann leer sein, weil ein Ordner evtl. noch
@@ -65,7 +60,6 @@ public class OrdnerEntity {
     @OrderBy( "name ASC" )
     private List<LesezeichenEntity> lesezeichen = new ArrayList<>(10);
 
-        
 
     /**
      * Default-Konstruktor, obligatorisch für JPA!
@@ -114,9 +108,9 @@ public class OrdnerEntity {
 
         this.vater = vater;
     }
-    
+
     public void addLesezeichen( LesezeichenEntity lesezeichen ) {
-        
+
         this.lesezeichen.add( lesezeichen );
     }
 

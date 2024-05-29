@@ -25,11 +25,10 @@ public class BeispielDatenImporter implements ApplicationRunner {
 
     private final static Logger LOG = LoggerFactory.getLogger( BeispielDatenImporter.class );
     
-    /**
-     * Repo-Bean für Zugriff auf Tabelle mit Ordnern.
-     */    
+    /** Repo-Bean für Zugriff auf Ordner. */
     private OrdnerRepo _ordnerRepo;
     
+    /** Repo-Bean für Zugriff auf Lesezeichen. */
     private LesezeichenRepo _lesezeichenRepo;
     
     
@@ -67,27 +66,37 @@ public class BeispielDatenImporter implements ApplicationRunner {
             final OrdnerEntity wurzelPrivat  = new OrdnerEntity( "Privat"  );
             final OrdnerEntity wurzelStudium = new OrdnerEntity( "Studium" );
             
-            wurzelPrivat.setVater( wurzelOrdner );
+            wurzelPrivat.setVater( wurzelOrdner  );
             wurzelStudium.setVater( wurzelOrdner );
             
-            final OrdnerEntity wurzelStudiumWiwi = new OrdnerEntity( "WiWi" );
-            final OrdnerEntity wurzelStudiumInfo = new OrdnerEntity( "WiInfo" );
+            final OrdnerEntity wurzelStudiumWiwi = new OrdnerEntity( "Wirtschaft" );
+            final OrdnerEntity wurzelStudiumInfo = new OrdnerEntity( "Informatik" );
             
             wurzelStudiumWiwi.setVater( wurzelStudium );
             wurzelStudiumInfo.setVater( wurzelStudium );
-                        
-            final LesezeichenEntity lesezeichenKicker = new LesezeichenEntity( "Fußballnachrichten", "https://www.kicker.de/" );
-            final LesezeichenEntity lesezeichenFaz    = new LesezeichenEntity( "FAZ (Nachrichten) ", "https://www.faz.net/"   );
-
-            wurzelPrivat.addLesezeichen( lesezeichenKicker );
-            wurzelPrivat.addLesezeichen( lesezeichenFaz    );
             
             List<OrdnerEntity> ordnerListe = List.of( wurzelOrdner, 
-                    wurzelPrivat, wurzelStudium,
-                    wurzelStudiumWiwi, wurzelStudiumInfo );            
-            _ordnerRepo.saveAll( ordnerListe );           
+                                                      wurzelPrivat, wurzelStudium,
+                                                      wurzelStudiumWiwi, wurzelStudiumInfo );            
+            _ordnerRepo.saveAll( ordnerListe );                 
+
             
-            List<LesezeichenEntity> lesezeichenListe = List.of( lesezeichenKicker, lesezeichenFaz );
+            final LesezeichenEntity lesezeichen1 = new LesezeichenEntity( "Fußballnachrichten", 
+                                                                           "https://www.kicker.de/",
+                                                                           wurzelPrivat );
+            
+            final LesezeichenEntity lesezeichen2 = new LesezeichenEntity( "FAZ (Nachrichten) ", 
+                                                                          "https://www.faz.net/",
+                                                                          wurzelPrivat );
+
+            final LesezeichenEntity lesezeichen3 = new LesezeichenEntity( "heise Newsticker", 
+                                                                          "https://www.heise.de/newsticker/",
+                                                                          wurzelStudiumInfo );            
+            final LesezeichenEntity lesezeichen4 = new LesezeichenEntity( "Spring: JPA Query Methods", 
+                                                                          "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.query-creation",
+                                                                          wurzelStudiumInfo );            
+                              
+            final List<LesezeichenEntity> lesezeichenListe = List.of( lesezeichen1, lesezeichen2, lesezeichen3, lesezeichen4 );
             _lesezeichenRepo.saveAll( lesezeichenListe );
         }
     }

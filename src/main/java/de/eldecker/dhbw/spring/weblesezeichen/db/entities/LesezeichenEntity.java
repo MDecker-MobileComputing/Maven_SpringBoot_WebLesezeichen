@@ -24,105 +24,118 @@ public class LesezeichenEntity {
     @Id
     @GeneratedValue( strategy = AUTO )
     private Long id;
-    
+
     /** Name des Lesezeichen, z.B. "Homepage von Max Mustermann". */
     private String name;
-    
+
     /** URL des Lesezeichen, z.B. "http://www.heise.de". */
     private String url;
-    
+
     /**
-     * Referenz auf Ordner, in dem dieses Lesezeichen enthalten ist
-     * (also auf ein Objekt derselben Klassen!)
+     * Referenz auf Ordner, in dem dieses Lesezeichen enthalten ist.
+     * Diese Beziehung wird durch die Spalte {@code ordner_fk} in der
+     * Tabelle {@code Lesezeichen} realisiert, also ist dies die
+     * <i>owning side</i> der Beziehung. Neue Beziehungen sollten
+     * an der <i>owning side</i> gesetzt werden.
      */
     @ManyToOne( fetch = EAGER )
     @JoinColumn( name = "ordner_fk", referencedColumnName = "id" )
-    private OrdnerEntity ordner;           
+    private OrdnerEntity ordner;
 
-    
+
     /**
      * Für JPA obligatorisches Default-Konstruktor.
      */
     public LesezeichenEntity() {
-        
-        name  = "";
-        url   = "";
+
+        this( "", "", null );
     }
 
-    
-    public LesezeichenEntity( String name, String url ) {
-    
-        this.name = name;
-        this.url  = url;
+
+    /**
+     * Konstruktor um {@code name}, {@code url} und {@code ordner},
+     * in dem das Lesezeichen enthalten ist, zu setzen.
+     */
+    public LesezeichenEntity( String name, String url, OrdnerEntity ordner ) {
+
+        this.name   = name;
+        this.url    = url;
+        this.ordner = ordner;
     }
 
-    
+
+    /**
+     * Getter für Primärschlüssel des Lesezeichens. Es gibt keinen analogen Setter,
+     * weil die ID von JPA verwaltet wird.
+     *
+     * @return ID des Lesezeichens
+     */
+    public Long getId() {
+
+        return id;
+    }
+
+
     /**
      * Anzeigename des Lesezeichen.
-     * 
+     *
      * @return Name von Lesezeichen, z.B. "Fußballnachrichten".
      */
     public String getName() {
-        
+
         return name;
     }
 
 
     public void setName( String name ) {
-        
+
         this.name = name;
     }
 
 
     public String getUrl() {
-        
+
         return url;
     }
 
 
     public void setUrl( String url ) {
-        
+
         this.url = url;
     }
 
 
-    public Long getId() {
-        
-        return id;
-    }
-    
-    
     /**
      * Getter für den Ordner, in dem das Lesezeichen liegt.
-     * 
+     *
      * @return Ordner
      */
     public OrdnerEntity getOrdner() {
-        
+
         return ordner;
     }
 
 
     /**
      * Setter für den Ordner, in dem das Lesezeichen liegt.
-     * 
-     * @param ordner Ordner, in dem Lesezeichen liegt.
+     *
+     * @param ordner Ordner
      */
     public void setOrdner( OrdnerEntity ordner ) {
-        
+
         this.ordner = ordner;
     }
 
 
     /**
      * Methode liefert String-Repräsentation des Objekts zurück.
-     * 
+     *
      * @return String mit Name und URL
      */
     @Override
     public String toString() {
-        
+
         return "Lesezeichen \"" + name + "\": " + url;
     }
-    
+
 }
