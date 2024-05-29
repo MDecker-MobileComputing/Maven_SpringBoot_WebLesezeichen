@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
 
+
 /**
  * Repo-Bean für Zugriff auf Ordner, die die Lesezeichen enthalten.
  */

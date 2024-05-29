@@ -49,7 +49,19 @@ public class LesezeichenEntity {
         url   = "";
     }
 
+    
+    public LesezeichenEntity( String name, String url ) {
+    
+        this.name = name;
+        this.url  = url;
+    }
 
+    
+    /**
+     * Anzeigename des Lesezeichen.
+     * 
+     * @return Name von Lesezeichen, z.B. "Fußballnachrichten".
+     */
     public String getName() {
         
         return name;

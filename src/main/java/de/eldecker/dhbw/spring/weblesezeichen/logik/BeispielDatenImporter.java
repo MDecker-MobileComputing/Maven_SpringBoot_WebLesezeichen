@@ -10,7 +10,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import de.eldecker.dhbw.spring.weblesezeichen.db.entities.LesezeichenEntity;
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
+import de.eldecker.dhbw.spring.weblesezeichen.db.repos.LesezeichenRepo;
 import de.eldecker.dhbw.spring.weblesezeichen.db.repos.OrdnerRepo;
 
 
@@ -25,9 +27,22 @@ public class BeispielDatenImporter implements ApplicationRunner {
     
     /**
      * Repo-Bean für Zugriff auf Tabelle mit Ordnern.
+     */    
+    private OrdnerRepo _ordnerRepo;
+    
+    private LesezeichenRepo _lesezeichenRepo;
+    
+    
+    /**
+     * Konstruktor für <i>Dependency Injection</i>:
      */
     @Autowired
-    private OrdnerRepo _ordnerRepo;
+    public BeispielDatenImporter( OrdnerRepo ordnerRepo,
+                                  LesezeichenRepo lesezeichenRepo ) {
+        
+        _ordnerRepo      = ordnerRepo;
+        _lesezeichenRepo = lesezeichenRepo;
+    }
     
     
     /**
@@ -60,14 +75,20 @@ public class BeispielDatenImporter implements ApplicationRunner {
             
             wurzelStudiumWiwi.setVater( wurzelStudium );
             wurzelStudiumInfo.setVater( wurzelStudium );
+                        
+            final LesezeichenEntity lesezeichenKicker = new LesezeichenEntity( "Fußballnachrichten", "https://www.kicker.de/" );
+            final LesezeichenEntity lesezeichenFaz    = new LesezeichenEntity( "FAZ (Nachrichten) ", "https://www.faz.net/"   );
+
+            wurzelPrivat.addLesezeichen( lesezeichenKicker );
+            wurzelPrivat.addLesezeichen( lesezeichenFaz    );
             
             List<OrdnerEntity> ordnerListe = List.of( wurzelOrdner, 
-                                                      wurzelPrivat, wurzelStudium,
-                                                      wurzelStudiumWiwi, wurzelStudiumInfo );            
+                    wurzelPrivat, wurzelStudium,
+                    wurzelStudiumWiwi, wurzelStudiumInfo );            
             _ordnerRepo.saveAll( ordnerListe );           
             
-            // https://www.kicker.de/
-            // https://www.spiegel.de/
+            List<LesezeichenEntity> lesezeichenListe = List.of( lesezeichenKicker, lesezeichenFaz );
+            _lesezeichenRepo.saveAll( lesezeichenListe );
         }
     }
     
