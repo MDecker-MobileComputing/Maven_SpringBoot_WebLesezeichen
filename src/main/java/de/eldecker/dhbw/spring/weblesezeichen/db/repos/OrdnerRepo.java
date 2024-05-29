@@ -14,7 +14,7 @@ import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
 public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long>{
 
     /**
-     * Query-Methode mit JPQL, gibt eine Flache Liste aller Ordner zurück.
+     * Query-Methode mit JPQL, gibt eine flache Liste aller Ordner zurück.
      * 
      * @return Liste aller Ordner, sortiert nach Ordnername (case-insensitive).
      */

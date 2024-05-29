@@ -132,7 +132,7 @@ public class ThymeleafController {
         
         final OrdnerEntity ordner = ordnerOptional.get();
                         
-        model.addAttribute( "ordnername", ordner.getName() );
+        model.addAttribute( "ordner", ordner );
         
         return "ordner-details";
     }

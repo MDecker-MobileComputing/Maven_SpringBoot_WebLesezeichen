@@ -5,6 +5,7 @@ import static jakarta.persistence.GenerationType.AUTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,10 +20,10 @@ import jakarta.persistence.Table;
 
 /**
  * Ein Ordner mit Lesezeichen, der 0 bis n Unterordner haben kann;
- * die Ordner bilden also eine Baumstruktor.
+ * die Ordner bilden also eine Baumstruktur.
  */
 @Entity
-@Table(name = "Ordner")
+@Table( name = "Ordner" )
 public class OrdnerEntity {
 
     /**
@@ -38,7 +39,7 @@ public class OrdnerEntity {
      * Über die Annotation wird der Wert dieser Spalte als eindeutig
      * definiert, es wird damit auch automatisch ein Index angelegt.
      */
-    @Column(unique = true)
+    @Column( unique = true )
     private String name;
 
 
@@ -56,7 +57,7 @@ public class OrdnerEntity {
      * sortiert sind; kann leer sein, weil ein Ordner evtl. noch
      * keine Lesezeichen enthält oder nur Unterordner enthalten soll.
      */
-    @OneToMany(mappedBy = "ordner")
+    @OneToMany( mappedBy = "ordner" )
     @OrderBy( "name ASC" )
     private List<LesezeichenEntity> lesezeichen = new ArrayList<>(10);
 
@@ -81,40 +82,75 @@ public class OrdnerEntity {
     }
 
 
+    /**
+     * Getter für Primärschlüssel.
+     *
+     * @return ID
+     */
     public Long getId() {
+
         return id;
     }
 
 
+    /**
+     * Getter für Anzeigename von Ordner.
+     *
+     * @return Name des Ordners
+     */
     public String getName() {
 
         return name;
     }
 
 
+    /**
+     * Setter für Anzeigename von Ordner.
+     *
+     * @param name Name des Ordners
+     */
     public void setName( String name ) {
 
         this.name = name;
     }
 
-
+    
+    /**
+     * Getter für direkten Vorgängerknoten; ist für
+     * Wurzelordner {@code null}.
+     *
+     * @return Vorgängerknoten
+     */
     public OrdnerEntity getVater() {
 
         return vater;
     }
 
-
+    /**
+     * Setter für direkten Vorgängerknoten.
+     * (Wurzelknoten hat {@code null} als Vorgängerknoten).
+     *
+     * @param vater Vorgängerknoten
+     */
     public void setVater( OrdnerEntity vater ) {
 
         this.vater = vater;
     }
 
-    public void addLesezeichen( LesezeichenEntity lesezeichen ) {
 
-        this.lesezeichen.add( lesezeichen );
+    /**
+     * Convenience-Methode zur Abfrage, ob Ordner der Wurzelordner
+     * ist (oberster Ordner in der Ordnerhierarchie).
+     * 
+     * @return {@code true} wenn Ordner keinen Vaterknoten hat, 
+     *         also {@code getVater() == null}
+     */
+    public  boolean istWurzel() {
+        
+        return getVater() == null;
     }
 
-
+    
     /**
      * String-Repräsentation des Objekts zurückgeben.
      *
@@ -126,5 +162,48 @@ public class OrdnerEntity {
         return "Lesezeichenordner \"" + name + "\".";
     }
 
+
+    /**
+     * Hashcode von Objekt berechnen.
+     * 
+     * @return Hashcode, berücksichtigt Attribute "name", "vater" und "lesezeichen".
+     */
+    @Override
+    public int hashCode() {
+        
+        return Objects.hash( name, vater, lesezeichen );
+    }
+
+
+    /**
+     * Prüft aufrufendes Objekt auf Gleichheit mit {@code obj}. 
+     * 
+     * @return {@code true} gdw. {@code obj} auch eine Instanz von {@link OrdnerEntity}
+     *         ist und die Attribute "name", "vater" und "lesezeichen" denselben Wert
+     *         haben.
+     */
+    @Override
+    public boolean equals( Object obj ) {
+        
+        if ( this == obj ) {
+            
+            return true;
+        }            
+        if ( obj == null ) {
+            
+            return false;
+        }
+        
+        if ( obj instanceof OrdnerEntity andererOrdner ) {
+        
+            return Objects.equals( name       , andererOrdner.name        ) && 
+                   Objects.equals( vater      , andererOrdner.vater       ) &&
+                   Objects.equals( lesezeichen, andererOrdner.lesezeichen );
+            
+        } else {
+            
+            return false;
+        }               
+    }
 
 }

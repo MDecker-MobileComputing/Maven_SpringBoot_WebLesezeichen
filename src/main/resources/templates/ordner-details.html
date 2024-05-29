@@ -8,7 +8,14 @@
 </head>
 <body>
 
-    <h1>Web-Lesezeichen: Details für Ordner ...</h1>
+    <h1>Details für Lesezeichenordner
+        "<span th:text="${ordner.getName()}"></span>"
+    </h1>
 
+    <div>
+        <span th:if="${ordner.istWurzel()}" >Oberster Ordner</span>
+        <a    th:if="${!ordner.istWurzel()}"
+              th:href="'/app/ordner/' + ${ordner.getVater().getId()}">Einen Ordner nach oben</a>
+    </div>
 
 </body>
