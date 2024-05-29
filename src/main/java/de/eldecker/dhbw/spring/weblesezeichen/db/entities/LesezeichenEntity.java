@@ -3,6 +3,8 @@ package de.eldecker.dhbw.spring.weblesezeichen.db.entities;
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.AUTO;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -137,5 +139,48 @@ public class LesezeichenEntity {
 
         return "Lesezeichen \"" + name + "\": " + url;
     }
+    
+    
+    /**
+     * Hashcode von Objekt berechnen.
+     * 
+     * @return Hashcode, berücksichtigt Attribute "name" und "ordner".
+     */
+    @Override
+    public int hashCode() {
+        
+        return Objects.hash( name, ordner );
+    }    
+    
+    
+    /**
+     * Prüft aufrufendes Objekt auf Gleichheit mit {@code obj}. 
+     * 
+     * @return {@code true} gdw. {@code obj} auch eine Instanz von 
+     *         {@link LesezeichenEntity} ist und die Attribute "name" 
+     *         und "ordner" dieselben Werte haben
+     */
+    @Override
+    public boolean equals( Object obj ) {
+        
+        if ( this == obj ) {
+            
+            return true;
+        }            
+        if ( obj == null ) {
+            
+            return false;
+        }
+        
+        if ( obj instanceof LesezeichenEntity anderesLesezeichen ) {
+        
+            return Objects.equals( name  , anderesLesezeichen.name  ) && 
+                   Objects.equals( ordner, anderesLesezeichen.ordner);
+            
+        } else {
+            
+            return false;
+        }               
+    }    
 
 }

@@ -54,7 +54,7 @@ public class ThymeleafController {
     
     
     /**
-     * Fehlerbehandlung für {@link OrdnerException }.
+     * Fehlerbehandlung für {@link OrdnerException }: Fehlerseite anzeigen.
      * 
      * @param ex Von Controller-Methode geworfene Exception
      * 
@@ -75,7 +75,8 @@ public class ThymeleafController {
 
 
     /**
-     * Fehlerbehandlung für {@code MethodArgumentTypeMismatchException }.
+     * Fehlerbehandlung für {@code MethodArgumentTypeMismatchException }:
+     * Fehlerseite anzeigen.
      * 
      * @param ex Von Controller-Methode geworfene Exception
      * 

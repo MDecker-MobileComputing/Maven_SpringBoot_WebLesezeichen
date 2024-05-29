@@ -154,6 +154,12 @@ public class OrdnerEntity {
 
     /**
      * Getter für Lesezeichen aus diesem Ordner.
+     * <br><br>
+     * 
+     * Es gibt keinen zugehörigen Setter in dieser Klasse,
+     * weil neue Lesezeichen über die {@link LesezeichenEntity}, 
+     * die die entsprechende Fremdschlüsselinformation speichert, 
+     * vorgenommen werden sollen.
      * 
      * @return Liste der Lesezeichen
      */
