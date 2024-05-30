@@ -1,5 +1,6 @@
 package de.eldecker.dhbw.spring.weblesezeichen.logik;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,6 +32,12 @@ public class BeispielDatenImporter implements ApplicationRunner {
     /** Repo-Bean für Zugriff auf Lesezeichen. */
     private LesezeichenRepo _lesezeichenRepo;
     
+    /** Liste der anzulegenden Ordner, wird auf einmal auf DB geschrieben. */
+    private List<OrdnerEntity> _ordnerListe = new ArrayList<>( 10 );
+    
+    /** Liste der anzulegenden Lesezeichen, wird auf einmal auf DB geschrieben. */
+    private List<LesezeichenEntity> _lesezeichenListe = new ArrayList<>( 10 );
+    
     
     /**
      * Konstruktor für <i>Dependency Injection</i>:
@@ -45,9 +52,65 @@ public class BeispielDatenImporter implements ApplicationRunner {
     
     
     /**
+     * Hilfsmethode um neuen Ordner anzulegen. Der neue Ordner wird im Member-Array
+     * gespeichert, damit alle Ordner in einer Batch-Operation auf die DB geschrieben
+     * werden können.
+     * 
+     * @param name Anzeigename neues Lesezeichen
+     * 
+     * @param vaterOrdner Ordner, in dem der anzulegende Ordner enthalten ist;
+     *                    für Wurzelordner (obersten Ordner) ist {@code null}
+     *                    zu übergeben.
+     *                    
+     * @return neu angelegtes Ordnerobjekt; diese Referenz wird u.U. benötigt,
+     *         wenn ein weiterer Ordner in dem gerade neu angelegten Ordner
+     *         enthalten sein soll.
+     */
+    private OrdnerEntity neuerOrdner( String name, OrdnerEntity vaterOrdner ) {
+    	
+    	final OrdnerEntity ordner = new OrdnerEntity( name );
+    	
+    	if ( vaterOrdner != null ) {
+    		
+    		ordner.setVater( vaterOrdner );
+    	}
+    		
+    	_ordnerListe.add( ordner );
+    	return ordner;
+    }
+    
+    
+    /**
+     * Neues Web-Lesezeichen anlegen.
+     * 
+     * @param name Anzeigename des Lesezeichen
+     * 
+     * @param url Eigentliche URL
+     * 
+     * @param ordner Ordner, in dem das Lesezeichen enthalten sein soll
+     */
+    private void neuesLesezeichen( String name, String url, OrdnerEntity ordner ) {
+    	
+    	final LesezeichenEntity lesezeichen = new LesezeichenEntity( name, url, ordner );
+    	
+    	_lesezeichenListe.add( lesezeichen );
+    }
+    
+    
+    /**
      * Diese Methode wird unmittelbar nach Initialisierung der Spring-Boot-App ausgeführt.
      * Sie überprüft, ob die Ordner-Tabelle leer ist; wenn dies der Fall ist, dann 
      * fügt Sie einige Beispieldatensätze ein.
+     * <br><br>
+     * 
+     * Ordnerhierachie:
+     * <pre>
+     * Wurzel
+     *   Studium
+     *     Informatik
+     *     Wirtschaft	
+     *   Privat
+     * </pre>
      * 
      * @param args Wird nicht ausgewertet
      */
@@ -61,49 +124,50 @@ public class BeispielDatenImporter implements ApplicationRunner {
                       anzahlOrdner );             
         } else {
             
-            final OrdnerEntity wurzelOrdner = new OrdnerEntity( "Wurzel" );
+            final OrdnerEntity ordnerWurzel = neuerOrdner( "Wurzel", null );
             
-            final OrdnerEntity wurzelPrivat  = new OrdnerEntity( "Privat"  );
-            final OrdnerEntity wurzelStudium = new OrdnerEntity( "Studium" );
+            final OrdnerEntity ordnerPrivat  = neuerOrdner( "Privat" , ordnerWurzel );
+            final OrdnerEntity ordnerStudium = neuerOrdner( "Studium", ordnerWurzel );
             
-            wurzelPrivat.setVater( wurzelOrdner  );
-            wurzelStudium.setVater( wurzelOrdner );
-            
-            final OrdnerEntity wurzelStudiumWiwi = new OrdnerEntity( "Wirtschaft" );
-            final OrdnerEntity wurzelStudiumInfo = new OrdnerEntity( "Informatik" );
-            
-            wurzelStudiumWiwi.setVater( wurzelStudium );
-            wurzelStudiumInfo.setVater( wurzelStudium );
-            
-            List<OrdnerEntity> ordnerListe = List.of( wurzelOrdner, 
-                                                      wurzelPrivat, wurzelStudium,
-                                                      wurzelStudiumWiwi, wurzelStudiumInfo );            
-            _ordnerRepo.saveAll( ordnerListe );                 
+            final OrdnerEntity ordnerWirtschaft = neuerOrdner( "Wirtschaft", ordnerStudium );
+            final OrdnerEntity ordnerInformatik = neuerOrdner( "Informatik", ordnerStudium );
+                      
+            _ordnerRepo.saveAll( _ordnerListe );                 
 
             
-            final LesezeichenEntity lz1 = new LesezeichenEntity( "Fußballnachrichten", 
-                                                                           "https://www.kicker.de/",
-                                                                           wurzelPrivat );
-            
-            final LesezeichenEntity lz2 = new LesezeichenEntity( "FAZ (Nachrichten) ", 
-                                                                 "https://www.faz.net/",
-                                                                 wurzelPrivat );
+            neuesLesezeichen( "Fußballnachrichten",
+            		          "https://www.kicker.de/",
+            		          ordnerPrivat );
+            		
+            neuesLesezeichen( "FAZ (Nachrichten)", 
+            		          "https://www.faz.net/faz-live",
+            		          ordnerPrivat );
+            		
+           neuesLesezeichen( "IT-Nachrichten von Heise",
+        		             "https://www.heise.de/newsticker/",
+        		             ordnerInformatik );
 
-            final LesezeichenEntity lz3 = new LesezeichenEntity( "Heise-Newsticker", 
-                                                                 "https://www.heise.de/newsticker/",
-                                                                 wurzelStudiumInfo );            
-            final LesezeichenEntity lz4 = new LesezeichenEntity( "Spring: JPA Query Methods", 
-                                                                 "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.query-creation",
-                                                                 wurzelStudiumInfo );            
-            final LesezeichenEntity lz5 = new LesezeichenEntity( "Java 21: API-Doc", 
-                                                                 "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/module-summary.html",
-                                                                 wurzelStudiumInfo );              
-            final LesezeichenEntity lz6 = new LesezeichenEntity( "Unicum: Tipps fürs Studium",
-                                                                 "https://www.unicum.de/studium-tipps",
-                                                                 wurzelStudium );
-            
-            final List<LesezeichenEntity> lesezeichenListe = List.of( lz1, lz2, lz3, lz4, lz5, lz6 );
-            _lesezeichenRepo.saveAll( lesezeichenListe );
+           neuesLesezeichen( "Spring: JPA Query Methods", 
+                             "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.query-creation",
+                             ordnerInformatik );
+           
+           neuesLesezeichen( "Java 21: API-Doc", 
+        		             "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/module-summary.html",
+                             ordnerInformatik );  
+           
+           neuesLesezeichen( "Unicum: Tipps fürs Studium",
+        		             "https://www.unicum.de/studium-tipps",
+                             ordnerStudium );
+           
+           neuesLesezeichen( "Handelsblatt-Ticket",
+        		             "https://www.handelsblatt.com/ticker/",
+        		             ordnerWirtschaft );
+           
+           neuesLesezeichen( "WiSu", 
+        		             "https://www.wisu.de/",
+        		             ordnerWirtschaft );
+                   
+           _lesezeichenRepo.saveAll( _lesezeichenListe );
         }
     }
     

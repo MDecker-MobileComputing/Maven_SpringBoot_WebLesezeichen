@@ -60,7 +60,7 @@ public class LesezeichenEntity {
      * 
      * @param name Anzeigename des Lesezeichens, z.B. "Börsennachrichten"
      * 
-     * @param url Eigentliche URL
+     * @param url Eigentliche URL, z.B. "https://www.finanzen.net/news/"
      * 
      * @param ordner Ordner, in dem das Lesezeichen enthalten ist
      */
