@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.LesezeichenEntity;
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
@@ -79,4 +80,20 @@ public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long>{
      */
     Optional<OrdnerEntity> findByVaterIsNull();
     
+    
+    /** Schreibenden Zugriff über REST abschalten. */
+    @SuppressWarnings("unchecked")
+    @Override
+    @RestResource( exported = false )
+    OrdnerEntity save( OrdnerEntity entity );
+
+    /** HTTP-Delete für einzelne Datensätze abschalten. */
+    @Override
+    @RestResource( exported = false )
+    void delete( OrdnerEntity entity );
+
+    /** HTTP-Delete für alle Datensätze abschalten. */
+    @Override
+    @RestResource( exported = false )
+    void deleteAll();     
 }
