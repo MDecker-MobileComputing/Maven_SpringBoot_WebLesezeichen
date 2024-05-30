@@ -10,14 +10,16 @@
 
     <h1>Web-Lesezeichen: Liste aller Ordner (alphabetisch)</h1>
 
-    <div th:each="ordner : ${ordner_liste}" class="abstand_unten">
-        <a th:href="@{ordner/{id}(id=${ordner.id})}" th:text="${ordner.name}">Ordnername</a>
-    </div>
-    <br>
     <p>
         <span class="fett">Anzahl der Ordner:</span>
         &nbsp;
         <span th:text="${ordner_liste.size()}">0</span>
     </p>
+    <br><br>
+
+    <div th:each="ordner : ${ordner_liste}" class="abstand_unten">
+        <a th:href="@{ordner/{id}(id=${ordner.id})}" th:text="${ordner.name}">Ordnername</a>
+    </div>
+    <br>
 
 </body>

@@ -131,8 +131,11 @@ public class BeispielDatenImporter implements ApplicationRunner {
             
             final OrdnerEntity ordnerWirtschaft = neuerOrdner( "Wirtschaft", ordnerStudium );
             final OrdnerEntity ordnerInformatik = neuerOrdner( "Informatik", ordnerStudium );
+            
+            final OrdnerEntity ordnerJava = neuerOrdner( "Java", ordnerInformatik );
                       
             _ordnerRepo.saveAll( _ordnerListe );                 
+            LOG.info( "Anzahl Ordner angelegt: {}", _ordnerRepo.count() );
 
             
             neuesLesezeichen( "Fußballnachrichten",
@@ -149,11 +152,11 @@ public class BeispielDatenImporter implements ApplicationRunner {
 
            neuesLesezeichen( "Spring: JPA Query Methods", 
                              "https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.query-creation",
-                             ordnerInformatik );
+                             ordnerJava );
            
            neuesLesezeichen( "Java 21: API-Doc", 
         		             "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/module-summary.html",
-                             ordnerInformatik );  
+        		             ordnerJava );  
            
            neuesLesezeichen( "Unicum: Tipps fürs Studium",
         		             "https://www.unicum.de/studium-tipps",
@@ -168,6 +171,7 @@ public class BeispielDatenImporter implements ApplicationRunner {
         		             ordnerWirtschaft );
                    
            _lesezeichenRepo.saveAll( _lesezeichenListe );
+           LOG.info( "Anzahl Lesezeichen angelegt: {}", _lesezeichenRepo.count() );
         }
     }
     
