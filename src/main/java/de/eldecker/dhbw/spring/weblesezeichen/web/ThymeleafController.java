@@ -75,6 +75,29 @@ public class ThymeleafController {
         return "fehler";
     }
 
+    
+    /**
+     * Hilfsmethode, die Ordner mit {@code ordnerID} holten.
+     * 
+     * @param ordnerID ID von Ordner, der zu holen ist
+     * 
+     * @return Ordner mit {@code ordnerId}
+     * 
+     * @throws LesezeichenException Wenn kein Ordner mit {@code ordnerId} gefunden
+     */
+    private OrdnerEntity holeOrdner( long ordnerID ) throws LesezeichenException {
+    
+        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerID );
+        if ( ordnerOptional.isEmpty() ) {
+            
+            throw new LesezeichenException( "Kein Ordner mit ID=" + ordnerID + " gefunden." );
+            
+        } else {
+            
+            return ordnerOptional.get();
+        }
+    }
+    
 
     /**
      * Fehlerbehandlung für {@code MethodArgumentTypeMismatchException }:
@@ -135,14 +158,8 @@ public class ThymeleafController {
     public String zeigeOrdner( @PathVariable Long id,
                                Model model ) throws LesezeichenException {
 
-        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( id );
-        if ( ordnerOptional.isEmpty() ) {
-            
-            throw new LesezeichenException( "Kein Ordner mit ID=" + id + " gefunden." );
-        }
-        
-        final OrdnerEntity ordner = ordnerOptional.get();
-                                        
+        final OrdnerEntity ordner = holeOrdner( id ); // throws LesezeichenException 
+                                                
         final List<OrdnerEntity> unterordnerListe = 
                         _ordnerRepo.findByVater_IdOrderByNameAsc( id );
         
@@ -214,19 +231,13 @@ public class ThymeleafController {
     public String lesezeichenNeuFormular( @RequestParam("ordnerId") Long ordnerId, 
     		                              Model model ) throws LesezeichenException {
     	
-    	final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
-    	if ( ordnerOptional.isEmpty() ) {
-    		
-    		throw new LesezeichenException( "Kein Ordner mit ID=" + ordnerId + " gefunden." );
-    	}
-    	
-    	model.addAttribute( "ordner", ordnerOptional.get() );
+        final OrdnerEntity ordner = holeOrdner( ordnerId ); // throws LesezeichenException
+            	
+    	model.addAttribute( "ordner", ordner );
     	
     	return "lesezeichen-neu";
     }
-           
-
-    
+               
     
     /**
      * Methode für eigentliches Anlegen von neuem Lesezeichen.
@@ -259,11 +270,7 @@ public class ThymeleafController {
     		                      @RequestParam(value = "ordnerId"   , required = true  ) long   ordnerId ) 
     		          throws LesezeichenException {
     	
-    	final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
-    	if ( ordnerOptional.isEmpty() ) {
-    		
-    		throw new LesezeichenException( "Zielordner für neues Lesezeichen mit ID=" + ordnerId + " nicht gefunden." );
-    	}
+        final OrdnerEntity ordner = holeOrdner( ordnerId ); // throws LesezeichenException
     	
     	anzeigename = anzeigename.trim();
     	if ( anzeigename.isBlank() ) {
@@ -280,9 +287,7 @@ public class ThymeleafController {
     		
     		throw new LesezeichenException( "URL für neues Lesezeichen fängt nicht mit http(s):// an." );
     	}
-    	
-    	final OrdnerEntity ordner = ordnerOptional.get();
-    	
+    	    	
     	LesezeichenEntity lesezeichen = new LesezeichenEntity( anzeigename, url, ordner );
     	lesezeichen = _lesezeichenRepo.save( lesezeichen );
     	LOG.info( "Neues Lesezeichen \"{}\" mit ID={} angelegt.", anzeigename, lesezeichen.getId() );
@@ -316,13 +321,7 @@ public class ThymeleafController {
     public String ordnerNeuFormular( @RequestParam(value = "ordnerId", required = true ) long ordnerId,
                                      Model model ) throws LesezeichenException {
         
-        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
-        if ( ordnerOptional.isEmpty() ) {
-            
-            throw new LesezeichenException( "Kein Ordner mit ID=" + ordnerId + " gefunden." );
-        }
-        
-        final OrdnerEntity ordner = ordnerOptional.get();
+        final OrdnerEntity ordner = holeOrdner( ordnerId ); // throws LesezeichenException
         
         model.addAttribute( "ordner", ordner );
         
@@ -350,20 +349,14 @@ public class ThymeleafController {
                              @RequestParam(value = "ordnername", required = true  ) String ordnername,
                              Model model ) throws LesezeichenException {
         
-        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
-        if ( ordnerOptional.isEmpty() ) {
-            
-            throw new LesezeichenException( "Kein Ordner mit ID=" + ordnerId + " gefunden." );
-        }
+        final OrdnerEntity ordner = holeOrdner( ordnerId ); // throws LesezeichenException
         
         ordnername = ordnername.trim();
         if ( ordnername.isBlank() ) {
             
             throw new LesezeichenException( "Leerer Name für neuen Ordner" );
         }
-        
-        final OrdnerEntity ordner = ordnerOptional.get();
-        
+                
         OrdnerEntity ordnerNeu = new OrdnerEntity( ordnername, ordner ); 
         ordnerNeu = _ordnerRepo.save( ordnerNeu );
         
