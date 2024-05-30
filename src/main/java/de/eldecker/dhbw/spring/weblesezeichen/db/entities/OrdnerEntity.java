@@ -74,11 +74,26 @@ public class OrdnerEntity {
     /**
      * Konstruktor um Ordner mit {@code name} anzulegen.
      *
-     * @param name Name des Ordners, z.B. "Nachrichtenseiten"
+     * @param name Anzeigename des Ordners, z.B. "Nachrichtenseiten"
      */
     public OrdnerEntity( String name ) {
 
         this.name = name;
+    }
+    
+    
+    /**
+     * Konstruktor um Ordner mit {@code name} anzulegen, der 
+     * in {@code vaterOrdner} enthalten ist.
+     * 
+     * @param name Anzeigename des Ordners,
+     * @param vaterOrdner Ordner, in dem der anzulegende Ordner
+     *                    enthalten ist.
+     */
+    public OrdnerEntity( String name, OrdnerEntity vaterOrdner ) {
+    
+        this.name  = name;
+        this.vater = vaterOrdner;
     }
 
 

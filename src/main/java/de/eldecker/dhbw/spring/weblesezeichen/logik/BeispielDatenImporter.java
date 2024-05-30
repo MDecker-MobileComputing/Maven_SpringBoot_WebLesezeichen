@@ -68,13 +68,8 @@ public class BeispielDatenImporter implements ApplicationRunner {
      */
     private OrdnerEntity neuerOrdner( String name, OrdnerEntity vaterOrdner ) {
     	
-    	final OrdnerEntity ordner = new OrdnerEntity( name );
+    	final OrdnerEntity ordner = new OrdnerEntity( name, vaterOrdner );
     	
-    	if ( vaterOrdner != null ) {
-    		
-    		ordner.setVater( vaterOrdner );
-    	}
-    		
     	_ordnerListe.add( ordner );
     	return ordner;
     }
@@ -108,6 +103,7 @@ public class BeispielDatenImporter implements ApplicationRunner {
      * Wurzel
      *   Studium
      *     Informatik
+     *       Java
      *     Wirtschaft	
      *   Privat
      * </pre>
@@ -140,6 +136,10 @@ public class BeispielDatenImporter implements ApplicationRunner {
             _ordnerRepo.saveAll( _ordnerListe );                 
             LOG.info( "Anzahl Ordner angelegt: {}", _ordnerRepo.count() );
 
+            
+            neuesLesezeichen ( "Richtiger Bookmark-Manager: raindrop.io", 
+                               "https://raindrop.io", 
+                               ordnerWurzel );
             
             neuesLesezeichen( "Bundesliga-Nachrichten",
             		          "https://www.kicker.de/bundesliga/startseite",

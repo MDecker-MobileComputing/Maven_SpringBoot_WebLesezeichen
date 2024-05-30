@@ -1,6 +1,7 @@
 package de.eldecker.dhbw.spring.weblesezeichen.db.repos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +37,20 @@ public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long>{
      *
      */
     List<OrdnerEntity> findByVater_IdOrderByNameAsc( Long vaterId );
+
+    
+    /**
+     * Derived Query Method: Wurzelordner holen (ist die einzige
+     * {@link OrdnerEntity} ohne Vater.
+     * <br><br>
+     * 
+     * Diese Methode ist erforderlich, weil wir nicht sicher sein können,
+     * dann der Wurzeln-Knoten immer die ID 1 gibt (die ID wird von JPA
+     * zugewiesen).
+     * 
+     * @return Optional enthält den Wurzelordner; wenn es leer ist,
+     *         dann wurde die Datenbank noch nicht intialisiert? 
+     */
+    Optional<OrdnerEntity> findByVaterIsNull();
+    
 }

@@ -152,6 +152,32 @@ public class ThymeleafController {
     
     
     /**
+     * Methode zum Anzeigen des Wurzelordners; verwendet intern die Methode
+     * {@link #zeigeOrdner(Long, Model)}.
+     * 
+     * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden.
+     * 
+     * @return Name der Template-Datei "ordner-details.html" ohne Datei-Endung
+     * 
+     * @throws LesezeichenException Wenn Wurzelknoten nicht gefunden (Datenbank
+     *                              wurde noch nicht initialisiert?)
+     */
+    @GetMapping( "/ordner/wurzel" )
+    public String zeigeWurzelOrdner( Model model ) throws LesezeichenException {
+        
+        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findByVaterIsNull();
+        if ( ordnerOptional.isEmpty() ) {
+            
+            throw new LesezeichenException( "Wurzelknoten nicht gefunden" );
+        }
+        
+        final long ordnerId = ordnerOptional.get().getId();
+        
+        return zeigeOrdner( ordnerId, model );        
+    }
+    
+    
+    /**
      * Methoden zum Anzeigen einer flachen Liste aller Lesezeichen.
      * 
      * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden
