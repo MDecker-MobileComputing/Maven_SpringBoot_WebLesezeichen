@@ -46,6 +46,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
 
         <!-- nach Buch von Ullenboom ( https://amzn.to/48qYPA8 ), S. 434:
              JDBC-Zugriff loggen mit P6Spy; P6Spy hängt sich zwischen JdbcTemplate und HikariCP.dependency>

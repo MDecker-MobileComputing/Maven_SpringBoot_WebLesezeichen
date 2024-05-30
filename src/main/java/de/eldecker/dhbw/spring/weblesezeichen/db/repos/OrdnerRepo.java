@@ -5,13 +5,39 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import de.eldecker.dhbw.spring.weblesezeichen.db.entities.LesezeichenEntity;
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
 
 
 /**
  * Repo-Bean für Zugriff auf {@link OrdnerEntity}-Objekte, die die Lesezeichen enthalten.
+ * <br><br>
+ * 
+ * Annotation {@code RepositoryRestResource}:  
+ * <ul>
+ * <li>
+ *   URL für lokalen Zugriff auf den REST-Endpunkt: http://localhost:8080/rest/ordner
+ * </li>
+ * <li>
+ *   Es wird Paginierung unterstützt, z.B.: http://localhost:8080/rest/ordner?page=0&size=5
+ *   Achtung: die erste Seite ist {@code page=0}
+ * </li>
+ * <li>In der Datei {@code application.properties} gibt es die folgende Annotation, damit
+ *     vor dem mit dem Attribut {@code path} angegebenen Pfad noch {@code rest} auftaucht:</li>
+ *     {@code spring.data.rest.base-path=/rest}.
+ *     Es ist nicht erlaubt im Attribut {@code path} Unterordner anzugeben.     
+ * </li>
+ * <li>
+ *  Mit dem Interface {@link InlineLesezeichen} als Wert für das Attribut {@code excerptProjection} 
+ *  wird bestimmt, welche Attribute in der JSON-Datei enthalten sein sollen. Hierdurch wird insb. 
+ *  ermöglich, auch gleich die Werte der im Ordner enthaltenen 
+ *  {@link LesezeichenEntity}-Objekte anzuzeigen. 
+ * </li>
+ * </ul>
  */
+@RepositoryRestResource( path = "ordner", excerptProjection = InlineLesezeichen.class)                                                  
 public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long>{
 
     /**

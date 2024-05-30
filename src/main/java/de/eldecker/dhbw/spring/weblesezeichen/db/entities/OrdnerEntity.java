@@ -141,6 +141,7 @@ public class OrdnerEntity {
         return vater;
     }
 
+    
     /**
      * Setter für direkten Vorgängerknoten.
      * (Wurzelknoten hat {@code null} als Vorgängerknoten).
@@ -164,8 +165,7 @@ public class OrdnerEntity {
         
         return getVater() == null;
     }
-    
-    
+        
 
     /**
      * Getter für Lesezeichen aus diesem Ordner.
