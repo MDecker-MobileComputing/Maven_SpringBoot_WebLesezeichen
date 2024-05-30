@@ -123,6 +123,8 @@ public class ThymeleafController {
     /**
      * Methode zum Anzeigen eines einzelnen Ordners.
      *
+     * @param id ID des Ordners
+     *
      * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden.
      *
      * @return Name der Template-Datei "ordner-details.html" ohne Datei-Endung
@@ -209,8 +211,8 @@ public class ThymeleafController {
      * @throws LesezeichenException Ordner mit {@code ordnerId} wurde nicht gefunden
      */
     @GetMapping( "/lesezeichen/neu_formular")
-    public String lesezeichenFormular( @RequestParam("ordnerId") Long ordnerId, 
-    		                           Model model ) throws LesezeichenException {
+    public String lesezeichenNeuFormular( @RequestParam("ordnerId") Long ordnerId, 
+    		                              Model model ) throws LesezeichenException {
     	
     	final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
     	if ( ordnerOptional.isEmpty() ) {
@@ -222,6 +224,8 @@ public class ThymeleafController {
     	
     	return "lesezeichen-neu";
     }
+           
+
     
     
     /**
@@ -281,7 +285,7 @@ public class ThymeleafController {
     	
     	LesezeichenEntity lesezeichen = new LesezeichenEntity( anzeigename, url, ordner );
     	lesezeichen = _lesezeichenRepo.save( lesezeichen );
-    	LOG.info( "Neues Lesezeichen mit ID={} angelegt.", lesezeichen.getId() );
+    	LOG.info( "Neues Lesezeichen \"{}\" mit ID={} angelegt.", anzeigename, lesezeichen.getId() );
     	
         final List<OrdnerEntity> unterordnerListe = 
                 _ordnerRepo.findByVater_IdOrderByNameAsc( ordnerId );
@@ -294,5 +298,81 @@ public class ThymeleafController {
     	
     	return "ordner-details";
     }
+    
+    
+    /**
+     * Methode zum Anzeigen der Seite/Formular für Anlegen Unterordner.
+     * 
+     * @param ordnerId ID von Ordner, in dem der neue Ordner als Unterordner angelegt
+     *                 werden soll
+     * 
+     * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden
+     * 
+     * @return Name der Template-Datei "ordner-neu.html" ohne Datei-Endung  
+     * 
+     *  @throws LesezeichenException Ordner mit {@code ordnerId} nicht gefunden
+     */
+    @GetMapping( "/ordner/neu_formular")
+    public String ordnerNeuFormular( @RequestParam(value = "ordnerId", required = true ) long ordnerId,
+                                     Model model ) throws LesezeichenException {
+        
+        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
+        if ( ordnerOptional.isEmpty() ) {
+            
+            throw new LesezeichenException( "Kein Ordner mit ID=" + ordnerId + " gefunden." );
+        }
+        
+        final OrdnerEntity ordner = ordnerOptional.get();
+        
+        model.addAttribute( "ordner", ordner );
+        
+        return "ordner-neu";
+    }
+        
+    
+    /**
+     * Methode für eigentliches Anlegen von neuem Unterordner.
+     * 
+     * @param ordnerId ID von Ordner, in dem der neue Ordner als Unterordner angelegt werden soll;
+     *                 Pflichtparameter
+     *
+     * @param ordnername Name von neuem Ordner; Pflichtparameter
+     * 
+     * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden
+     * 
+     * @return Name der Template-Datei "ordner-details.html" ohne Datei-Endung  
+     * 
+     * @throws LesezeichenException Ordner mit {@code ordnerId} wurde nicht gefunden oder
+     *                              {@code ordnername} ist nicht gültig
+     */
+    @PostMapping( "/ordner/neu")
+    public String ordnerNeu( @RequestParam(value = "ordnerId"  , required = true  ) long   ordnerId  ,
+                             @RequestParam(value = "ordnername", required = true  ) String ordnername,
+                             Model model ) throws LesezeichenException {
+        
+        final Optional<OrdnerEntity> ordnerOptional = _ordnerRepo.findById( ordnerId );
+        if ( ordnerOptional.isEmpty() ) {
+            
+            throw new LesezeichenException( "Kein Ordner mit ID=" + ordnerId + " gefunden." );
+        }
+        
+        ordnername = ordnername.trim();
+        if ( ordnername.isBlank() ) {
+            
+            throw new LesezeichenException( "Leerer Name für neuen Ordner" );
+        }
+        
+        final OrdnerEntity ordner = ordnerOptional.get();
+        
+        OrdnerEntity ordnerNeu = new OrdnerEntity( ordnername, ordner ); 
+        ordnerNeu = _ordnerRepo.save( ordnerNeu );
+        
+        LOG.info( "Neuer Ordner \"{}\" mit ID={} angelegt.", ordnername, ordnerNeu.getId() );
+                
+        model.addAttribute( "ordner"          , ordnerNeu );
+        model.addAttribute( "unterordnerliste", null      );       
+                
+        return "ordner-details";
+    }    
 
 }

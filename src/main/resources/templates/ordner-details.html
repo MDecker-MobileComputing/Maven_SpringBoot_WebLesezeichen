@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Web-Lesezeichen: Details Ordner</title>
+<title th:text="'Lesezeichenordner: ' + ${ordner.getName()}"></title>
 <meta charset="utf-8" >
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="../../styles.css">
 </head>
 <body>
 
-    <h1>Details für Lesezeichenordner
+    <h1>Lesezeichenordner
         "<span th:text="${ordner.getName()}"></span>"
     </h1>
 
@@ -50,6 +50,6 @@
 
     <a th:href="'/app/lesezeichen/neu_formular?ordnerId=' + ${ordner.getId()}">Neues Lesezeichen</a>
     &nbsp;
-    <a th:href="'/app/ordner/neu?ordnerId=' + ${ordner.getId()}">Neuer Unterordner</a>
+    <a th:href="'/app/ordner/neu_formular?ordnerId=' + ${ordner.getId()}">Neuer Unterordner</a>
 
 </body>

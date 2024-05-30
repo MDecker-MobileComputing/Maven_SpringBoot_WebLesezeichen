@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Neuen Ordner anlegen</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../../styles.css">
+</head>
+<body>
+
+    <h1>Neuen Unterordner in Ordner
+        "<span th:text="${ordner.getName()}"></span>"
+        anlegen
+    </h1>
+
+    <form action="/app/ordner/neu" method="post">
+
+        <label for="ordnername">Name neuer Ordner: </label>
+        <input type="text" id="ordnername" name="ordnername">
+        <br><br>
+
+        <input type="hidden" id="ordnerId" name="ordnerId" th:value="${ordner.getId()}">
+
+        <input type="submit" value="Anlegen"      >
+        <input type="reset"  value="Zurücksetzen">
+
+      </form>
+      <br><br>
+
+      <a th:href="'/app/ordner/' + ${ordner.getId()}">Zurück zu Ordner/Abbrechen</a>
+
+</body>
