@@ -3,11 +3,9 @@ package de.eldecker.dhbw.spring.weblesezeichen.logik;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
-import de.eldecker.dhbw.spring.weblesezeichen.db.repos.OrdnerRepo;
 
 
 /**
@@ -17,19 +15,6 @@ import de.eldecker.dhbw.spring.weblesezeichen.db.repos.OrdnerRepo;
 @Service
 public class OrdnerService {
 
-	/** Repo-Bean für Zugriff auf Ordner-Tabelle/Entities. */
-    private OrdnerRepo _ordnerRepo;
-
-    
-    /**
-     * Konstruktor für <i>Dependency Injection</i>
-     */
-    @Autowired
-    public OrdnerService( OrdnerRepo ordnerRepo ) {
-    	
-    	_ordnerRepo = ordnerRepo;
-    }
-    
     
     /**
      * Gibt den Pfad vom gegebenen {@link OrdnerEntity} Knoten zur Wurzel zurück.

@@ -207,7 +207,11 @@ public class ThymeleafController {
      *                    darf nicht nur aus Leerzeichen bestehen
      * 
      * @param url URL des neuen Lesezeichens, Pflichtparameter; 
-     *            musst mindestens 12 Zeichen haben
+     *            musst mindestens 12 Zeichen haben und entweder mit
+     *            "http://" oder "https://" anfangen. Das input-Element
+     *            hat {@code type="url"}, deshalb sollten aktuelle
+     *            Browser ein Absenden des Formulars nur erlauben, wenn
+     *            eine gültige URL eingegeben ist.
      * 
      * @param ordnerId ID des Ordners, in dem das Lesezeichen angelegt werden soll,
      *                 Pflichtparameter
@@ -241,6 +245,10 @@ public class ThymeleafController {
     	if ( url.length() < 12 ) { // kürzestes URL? http://ix.de (hat 12 Zeichen)
     		
     		throw new LesezeichenException( "URL für neues Lesezeichen zu kurz" );
+    	}
+    	if ( !url.startsWith( "http://") && !url.startsWith( "https://") ) {
+    		
+    		throw new LesezeichenException( "URL für neues Lesezeichen fängt nicht mit http(s):// an." );
     	}
     	
     	final OrdnerEntity ordner = ordnerOptional.get();

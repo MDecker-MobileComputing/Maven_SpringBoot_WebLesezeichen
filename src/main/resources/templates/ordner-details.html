@@ -12,9 +12,8 @@
         "<span th:text="${ordner.getName()}"></span>"
     </h1>
 
-    <div th:if="${nachricht != null}" th:text="${nachricht}">
-        <br><br>
-    </div>
+    <div th:if="${nachricht != null}" th:text="${nachricht}"></div>
+    <br><br>
 
     <div>
         <span th:if="${ordner.istWurzel()}" >Oberster Ordner</span>
