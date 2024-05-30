@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import de.eldecker.dhbw.spring.weblesezeichen.db.entities.LesezeichenEntity;
 
 
+/**
+ * Repo-Bean für Zugriff auf {@link LesezeichenEntity}-Objekte.
+ */
 public interface LesezeichenRepo extends JpaRepository<LesezeichenEntity, Long> {
 
     /**

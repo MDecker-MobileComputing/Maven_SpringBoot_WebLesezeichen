@@ -9,7 +9,7 @@ import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
 
 
 /**
- * Repo-Bean für Zugriff auf Ordner, die die Lesezeichen enthalten.
+ * Repo-Bean für Zugriff auf {@link OrdnerEntity}-Objekte, die die Lesezeichen enthalten.
  */
 public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long>{
 
