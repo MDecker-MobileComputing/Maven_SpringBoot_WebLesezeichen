@@ -18,7 +18,8 @@
     <br><br>
 
     <div th:each="ordner : ${ordner_liste}" class="abstand_unten">
-        <a th:href="@{ordner/{id}(id=${ordner.id})}" th:text="${ordner.name}">Ordnername</a>
+        <a th:href="@{ordner/{id}(id=${ordner.id})}" th:text="${ordner.name}">Ordnername</a>:
+        <span th:text="${ordner.getLesezeichen().size()}"></span> Lesezeichen
     </div>
     <br>
 

@@ -129,6 +129,9 @@ public class BeispielDatenImporter implements ApplicationRunner {
             final OrdnerEntity ordnerPrivat  = neuerOrdner( "Privat" , ordnerWurzel );
             final OrdnerEntity ordnerStudium = neuerOrdner( "Studium", ordnerWurzel );
             
+            final OrdnerEntity ordnerSport = neuerOrdner( "Sport", ordnerPrivat );
+            final OrdnerEntity ordnerMusik = neuerOrdner( "Musik", ordnerPrivat );
+            
             final OrdnerEntity ordnerWirtschaft = neuerOrdner( "Wirtschaft", ordnerStudium );
             final OrdnerEntity ordnerInformatik = neuerOrdner( "Informatik", ordnerStudium );
             
@@ -138,9 +141,21 @@ public class BeispielDatenImporter implements ApplicationRunner {
             LOG.info( "Anzahl Ordner angelegt: {}", _ordnerRepo.count() );
 
             
-            neuesLesezeichen( "Fußballnachrichten",
-            		          "https://www.kicker.de/",
-            		          ordnerPrivat );
+            neuesLesezeichen( "Bundesliga-Nachrichten",
+            		          "https://www.kicker.de/bundesliga/startseite",
+            		          ordnerSport );
+            
+            neuesLesezeichen( "Basketball-Nachrichten",
+            		          "https://www.sport1.de/channel/basketball/news",
+            		          ordnerSport );
+            
+            neuesLesezeichen( "Musik-Nachrichten von musikexpress",
+            		          "https://www.musikexpress.de/category/musik/news-musik/",
+            		          ordnerMusik );
+            
+            neuesLesezeichen( "News von Metal Hammer",
+            		          "https://www.metal-hammer.de/news/meldungen/",
+            		          ordnerMusik );
             		
             neuesLesezeichen( "FAZ (Nachrichten)", 
             		          "https://www.faz.net/faz-live",
@@ -158,6 +173,10 @@ public class BeispielDatenImporter implements ApplicationRunner {
         		             "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/module-summary.html",
         		             ordnerJava );  
            
+           neuesLesezeichen( "Java-Nachrichten von InfoQ", 
+                             "https://www.infoq.com/java/news/",
+                             ordnerJava );
+           
            neuesLesezeichen( "Unicum: Tipps fürs Studium",
         		             "https://www.unicum.de/studium-tipps",
                              ordnerStudium );
@@ -168,6 +187,10 @@ public class BeispielDatenImporter implements ApplicationRunner {
            
            neuesLesezeichen( "WiSu", 
         		             "https://www.wisu.de/",
+        		             ordnerWirtschaft );
+        		             
+           neuesLesezeichen( "Business-Nachrichten von BBC",
+        		             "https://www.bbc.com/business",
         		             ordnerWirtschaft );
                    
            _lesezeichenRepo.saveAll( _lesezeichenListe );
