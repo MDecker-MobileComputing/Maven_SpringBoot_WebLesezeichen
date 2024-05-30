@@ -33,3 +33,13 @@ ul li {
 .abstand_oben {
     margin-top: 1em;
 }
+
+input[type="text"], input[type="url"] {
+    width: 100%;
+    margin-bottom: 1.5em
+}
+@media (min-width: 800px) {
+    input[type="text"], input[type="url"] {
+        width: 50%;
+    }
+}

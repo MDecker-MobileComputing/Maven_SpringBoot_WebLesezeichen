@@ -181,7 +181,7 @@ public class BeispielDatenImporter implements ApplicationRunner {
         		             "https://www.unicum.de/studium-tipps",
                              ordnerStudium );
            
-           neuesLesezeichen( "Handelsblatt-Ticket",
+           neuesLesezeichen( "Handelsblatt-Ticker",
         		             "https://www.handelsblatt.com/ticker/",
         		             ordnerWirtschaft );
            

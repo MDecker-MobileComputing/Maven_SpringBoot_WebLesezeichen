@@ -1,0 +1,15 @@
+Lesezeichen, die zur Laufzeit angelegt werden können
+====================================================
+
+<Anzeigename>
+<URL>
+<Ordner>
+
+
+Wirtschaftswoche: Finanzen
+https://www.wiwo.de/finanzen/
+Wirtschaft: http://localhost:8080/app/ordner/6
+
+New York Times: Business
+https://www.nytimes.com/section/business
+Wirtschaft: http://localhost:8080/app/ordner/6

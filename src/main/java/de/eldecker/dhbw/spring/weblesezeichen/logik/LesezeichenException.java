@@ -5,15 +5,14 @@ package de.eldecker.dhbw.spring.weblesezeichen.logik;
  * Applikations-spezifische Exception-Klasse.
  */
 @SuppressWarnings("serial")
-public class OrdnerException extends Exception {
+public class LesezeichenException extends Exception {
 
     /**
-     * Konstruktor, um Exception mit Fehlerbeschreibung
-     * zu erzeugen.
+     * Konstruktor, um Exception mit Fehlerbeschreibung zu erzeugen.
      * 
      * @param msg Fehlerbeschreibung
      */
-    public OrdnerException( String msg ) {
+    public LesezeichenException( String msg ) {
 
         super( msg );
     }

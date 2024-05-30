@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Neues Lesezeichen anlegen</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../../styles.css">
+</head>
+<body>
+
+    <h1>Neues Lesezeichen in Ordner
+        "<span th:text="${ordner.getName()}"></span>"
+        anlegen
+    </h1>
+
+    <form action="/app/lesezeichen/neu" method="post">
+
+        <label for="anzeigename">Name Lesezeichen: </label>
+        <input type="text" id="anzeigename" name="anzeigename">
+        <br><br>
+
+        <label for="url">URL: </label>
+        <input type="url" id="url" name="url" min="1">
+        <br><br>
+
+        <input type="hidden" id="ordnerId" name="ordnerId" th:value="${ordner.getId()}">
+
+        <input type="submit" value="Anlegen"      >
+        <input type="reset"  value="Zurücksetzen">
+
+      </form>
+      <br><br>
+
+      <a th:href="'/app/ordner/' + ${ordner.getId()}">Zurück zu Ordner/Abbrechen</a>
+
+</body>

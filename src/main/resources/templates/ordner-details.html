@@ -12,6 +12,10 @@
         "<span th:text="${ordner.getName()}"></span>"
     </h1>
 
+    <div th:if="${nachricht != null}" th:text="${nachricht}">
+        <br><br>
+    </div>
+
     <div>
         <span th:if="${ordner.istWurzel()}" >Oberster Ordner</span>
         <a    th:if="${!ordner.istWurzel()}"
@@ -27,7 +31,7 @@
         <li th:each="lesezeichen : ${ordner.getLesezeichen()}">
             <a th:href="${lesezeichen.getUrl()}"
                target="_blank"
-               th:utext="${lesezeichen.getName()} + ' ↗'"></a>
+               th:utext="${lesezeichen.getName()} + '↗'"></a>
             <br>
         </li>
     </ul>
@@ -43,5 +47,10 @@
             &nbsp;
         </span>
     </div>
+    <br><br>
+
+    <a th:href="'/app/lesezeichen/neu_formular?ordnerId=' + ${ordner.getId()}">Neues Lesezeichen</a>
+    &nbsp;
+    <a th:href="'/app/ordner/neu?ordnerId=' + ${ordner.getId()}">Neuer Unterordner</a>
 
 </body>

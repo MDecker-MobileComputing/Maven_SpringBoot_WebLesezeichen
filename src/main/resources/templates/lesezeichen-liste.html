@@ -19,9 +19,8 @@
     <div th:each="lesezeichen : ${lesezeichenliste}">
         <a th:href="${lesezeichen.getUrl()}"
            target="_blank"
-           th:utext="${lesezeichen.getName()} + ' ↗'"></a>
-        &nbsp; – &nbsp;
-        Enthalten in Ordner
+           th:utext="${lesezeichen.getName()} + '↗'"></a>
+        in Ordner
         <a th:href="'/app/ordner/' + ${lesezeichen.getOrdner().getId()}"
            target="_blank"
            th:utext="${lesezeichen.getOrdner().getName()}"></a>
