@@ -335,14 +335,18 @@ public class ThymeleafController {
      * @param ordnerId ID von Ordner, in dem der neue Ordner als Unterordner angelegt werden soll;
      *                 Pflichtparameter
      *
-     * @param ordnername Name von neuem Ordner; Pflichtparameter
+     * @param ordnername Name von neuem Ordner; Pflichtparameter.
+     *                   Es darf nicht schon einen anderen Ordner mit diesem Namen geben (case-insensitiver
+     *                   Vergleich), siehe auch die {@code unique}-Constraint für das Attribut {@code name}
+     *                   der Klasse {@link OrdnerEntity}.
      * 
      * @param model Objekt für Platzhalterwerte, die vom Template benötigt werden
      * 
      * @return Name der Template-Datei "ordner-details.html" ohne Datei-Endung  
      * 
-     * @throws LesezeichenException Ordner mit {@code ordnerId} wurde nicht gefunden oder
-     *                              {@code ordnername} ist nicht gültig
+     * @throws LesezeichenException Ordner mit {@code ordnerId} wurde nicht gefunden,
+     *                              {@code ordnername} ist leer oder wird schon für einen
+     *                              anderen Ordner verwendet
      */
     @PostMapping( "/ordner/neu")
     public String ordnerNeu( @RequestParam(value = "ordnerId"  , required = true  ) long   ordnerId  ,
@@ -357,6 +361,12 @@ public class ThymeleafController {
             throw new LesezeichenException( "Leerer Name für neuen Ordner" );
         }
                 
+        final List<OrdnerEntity> ordnerListe = _ordnerRepo.findByNameIgnoreCase( ordnername );
+        if ( !ordnerListe.isEmpty() ) {
+            
+            throw new LesezeichenException( "Es gibt schon einen Ordner mit dem Namen \"" + ordnername + "\"." );
+        }
+        
         OrdnerEntity ordnerNeu = new OrdnerEntity( ordnername, ordner ); 
         ordnerNeu = _ordnerRepo.save( ordnerNeu );
         
