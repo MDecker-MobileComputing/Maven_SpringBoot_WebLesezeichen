@@ -289,6 +289,7 @@ public class ThymeleafController {
     	}
     	    	
     	LesezeichenEntity lesezeichen = new LesezeichenEntity( anzeigename, url, ordner );
+    	ordner.getLesezeichen().add(lesezeichen);
     	lesezeichen = _lesezeichenRepo.save( lesezeichen );
     	LOG.info( "Neues Lesezeichen \"{}\" mit ID={} angelegt.", anzeigename, lesezeichen.getId() );
     	

@@ -87,6 +87,7 @@ public class BeispielDatenImporter implements ApplicationRunner {
     private void neuesLesezeichen( String name, String url, OrdnerEntity ordner ) {
     	
     	final LesezeichenEntity lesezeichen = new LesezeichenEntity( name, url, ordner );
+    	ordner.getLesezeichen().add(lesezeichen);
     	
     	_lesezeichenListe.add( lesezeichen );
     }
@@ -195,6 +196,8 @@ public class BeispielDatenImporter implements ApplicationRunner {
                    
            _lesezeichenRepo.saveAll( _lesezeichenListe );
            LOG.info( "Anzahl Lesezeichen angelegt: {}", _lesezeichenRepo.count() );
+           
+           _ordnerRepo.saveAll( _ordnerListe );
         }
     }
     
