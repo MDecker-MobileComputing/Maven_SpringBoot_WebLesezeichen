@@ -39,7 +39,7 @@ import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
  * </ul>
  */
 @RepositoryRestResource( path = "ordner", excerptProjection = InlineLesezeichen.class)
-public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long>{
+public interface OrdnerRepo extends JpaRepository<OrdnerEntity, Long> {
 
     /**
      * Query-Methode mit JPQL, gibt eine flache Liste aller Ordner zurück.
