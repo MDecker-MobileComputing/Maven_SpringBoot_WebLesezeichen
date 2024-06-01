@@ -1,5 +1,6 @@
 package de.eldecker.dhbw.spring.weblesezeichen.db.entities;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.AUTO;
 
@@ -57,7 +58,7 @@ public class OrdnerEntity {
      * sortiert sind; kann leer sein, weil ein Ordner evtl. noch
      * keine Lesezeichen enthält oder nur Unterordner enthalten soll.
      */
-    @OneToMany( mappedBy = "ordner" )
+    @OneToMany( mappedBy = "ordner", fetch = EAGER )
     @OrderBy( "name ASC" )
     private List<LesezeichenEntity> lesezeichen = new ArrayList<>( 10 );
 
@@ -80,18 +81,18 @@ public class OrdnerEntity {
 
         this.name = name;
     }
-    
-    
+
+
     /**
-     * Konstruktor um Ordner mit {@code name} anzulegen, der 
+     * Konstruktor um Ordner mit {@code name} anzulegen, der
      * in {@code vaterOrdner} enthalten ist.
-     * 
+     *
      * @param name Anzeigename des Ordners,
      * @param vaterOrdner Ordner, in dem der anzulegende Ordner
      *                    enthalten ist.
      */
     public OrdnerEntity( String name, OrdnerEntity vaterOrdner ) {
-    
+
         this.name  = name;
         this.vater = vaterOrdner;
     }
@@ -129,7 +130,7 @@ public class OrdnerEntity {
         this.name = name;
     }
 
-    
+
     /**
      * Getter für direkten Vorgängerknoten; ist für
      * Wurzelordner {@code null}.
@@ -141,7 +142,7 @@ public class OrdnerEntity {
         return vater;
     }
 
-    
+
     /**
      * Setter für direkten Vorgängerknoten.
      * (Wurzelknoten hat {@code null} als Vorgängerknoten).
@@ -157,29 +158,29 @@ public class OrdnerEntity {
     /**
      * Convenience-Methode zur Abfrage, ob Ordner der Wurzelordner
      * ist (oberster Ordner in der Ordnerhierarchie).
-     * 
-     * @return {@code true} wenn Ordner keinen Vaterknoten hat, 
+     *
+     * @return {@code true} wenn Ordner keinen Vaterknoten hat,
      *         also {@code getVater() == null}
      */
     public  boolean istWurzel() {
-        
+
         return getVater() == null;
     }
-        
+
 
     /**
      * Getter für Lesezeichen aus diesem Ordner.
      * <br><br>
-     * 
+     *
      * Es gibt keinen zugehörigen Setter in dieser Klasse,
-     * weil neue Lesezeichen über die {@link LesezeichenEntity}, 
-     * die die entsprechende Fremdschlüsselinformation speichert, 
+     * weil neue Lesezeichen über die {@link LesezeichenEntity},
+     * die die entsprechende Fremdschlüsselinformation speichert,
      * vorgenommen werden sollen.
-     * 
+     *
      * @return Liste der Lesezeichen
      */
     public List<LesezeichenEntity> getLesezeichen() {
-        
+
         return lesezeichen;
     }
 
@@ -198,45 +199,45 @@ public class OrdnerEntity {
 
     /**
      * Hashcode von Objekt berechnen.
-     * 
+     *
      * @return Hashcode, berücksichtigt Attribute "name", "vater" und "lesezeichen".
      */
     @Override
     public int hashCode() {
-        
+
         return Objects.hash( name, vater, lesezeichen );
     }
 
 
     /**
-     * Prüft aufrufendes Objekt auf Gleichheit mit {@code obj}. 
-     * 
+     * Prüft aufrufendes Objekt auf Gleichheit mit {@code obj}.
+     *
      * @return {@code true} gdw. {@code obj} auch eine Instanz von {@link OrdnerEntity}
      *         ist und die Attribute "name", "vater" und "lesezeichen" denselben Wert
      *         haben.
      */
     @Override
     public boolean equals( Object obj ) {
-        
+
         if ( this == obj ) {
-            
+
             return true;
-        }            
+        }
         if ( obj == null ) {
-            
+
             return false;
         }
-        
+
         if ( obj instanceof OrdnerEntity andererOrdner ) {
-        
-            return Objects.equals( name       , andererOrdner.name        ) && 
+
+            return Objects.equals( name       , andererOrdner.name        ) &&
                    Objects.equals( vater      , andererOrdner.vater       ) &&
                    Objects.equals( lesezeichen, andererOrdner.lesezeichen );
-            
+
         } else {
-            
+
             return false;
-        }               
+        }
     }
 
 }
