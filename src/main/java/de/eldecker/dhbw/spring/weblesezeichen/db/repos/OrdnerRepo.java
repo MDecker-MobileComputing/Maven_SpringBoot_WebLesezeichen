@@ -22,7 +22,7 @@ import de.eldecker.dhbw.spring.weblesezeichen.db.entities.OrdnerEntity;
  *   URL für lokalen Zugriff auf den REST-Endpunkt: http://localhost:8080/rest/ordner
  * </li>
  * <li>
- *   Es wird Paginierung unterstützt, z.B.: http://localhost:8080/rest/ordner?page=0&size=5
+ *   Es wird Paginierung unterstützt, z.B.: http://localhost:8080/rest/ordner?page=0&amp;size=5
  *   Achtung: die erste Seite ist {@code page=0}
  * </li>
  * <li>In der Datei {@code application.properties} gibt es die folgende Annotation, damit

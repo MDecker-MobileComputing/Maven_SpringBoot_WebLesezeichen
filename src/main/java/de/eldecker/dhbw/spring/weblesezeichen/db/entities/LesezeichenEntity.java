@@ -57,11 +57,11 @@ public class LesezeichenEntity {
     /**
      * Konstruktor um {@code name}, {@code url} und {@code ordner},
      * in dem das Lesezeichen enthalten ist, zu setzen.
-     * 
+     *
      * @param name Anzeigename des Lesezeichens, z.B. "Börsennachrichten"
-     * 
+     *
      * @param url Eigentliche URL, z.B. "https://www.finanzen.net/news/"
-     * 
+     *
      * @param ordner Ordner, in dem das Lesezeichen enthalten ist
      */
     public LesezeichenEntity( String name, String url, OrdnerEntity ordner ) {
@@ -94,10 +94,10 @@ public class LesezeichenEntity {
         return name;
     }
 
-    
+
     /**
      * Setter für Anzeigename des Lesezeichen.
-     * 
+     *
      * @param name Name der Lesezeichen, z.B. "Fußballnachrichten"
      */
     public void setName( String name ) {
@@ -108,7 +108,7 @@ public class LesezeichenEntity {
 
     /**
      * Getter für eigentliche URL.
-     * 
+     *
      * @return URL, für die das Lesezeichen angelegt wurde
      */
     public String getUrl() {
@@ -116,11 +116,11 @@ public class LesezeichenEntity {
         return url;
     }
 
-    
+
     /**
      * Setter für eigentliche URL.
-     * 
-     * @return URL, für die das Lesezeichen angelegt wurde
+     *
+     * @param url URL, für die das Lesezeichen angelegt wurde
      */
     public void setUrl( String url ) {
 
@@ -160,48 +160,48 @@ public class LesezeichenEntity {
 
         return "Lesezeichen \"" + name + "\": " + url;
     }
-    
-    
+
+
     /**
      * Hashcode von Objekt berechnen.
-     * 
+     *
      * @return Hashcode, berücksichtigt Attribute "name" und "ordner".
      */
     @Override
     public int hashCode() {
-        
+
         return Objects.hash( name, ordner );
-    }    
-    
-    
+    }
+
+
     /**
-     * Prüft aufrufendes Objekt auf Gleichheit mit {@code obj}. 
-     * 
-     * @return {@code true} gdw. {@code obj} auch eine Instanz von 
-     *         {@link LesezeichenEntity} ist und die Attribute "name" 
+     * Prüft aufrufendes Objekt auf Gleichheit mit {@code obj}.
+     *
+     * @return {@code true} gdw. {@code obj} auch eine Instanz von
+     *         {@link LesezeichenEntity} ist und die Attribute "name"
      *         und "ordner" dieselben Werte haben
      */
     @Override
     public boolean equals( Object obj ) {
-        
+
         if ( this == obj ) {
-            
+
             return true;
-        }            
+        }
         if ( obj == null ) {
-            
+
             return false;
         }
-        
+
         if ( obj instanceof LesezeichenEntity anderesLesezeichen ) {
-        
-            return Objects.equals( name  , anderesLesezeichen.name   ) && 
+
+            return Objects.equals( name  , anderesLesezeichen.name   ) &&
                    Objects.equals( ordner, anderesLesezeichen.ordner );
-            
+
         } else {
-            
+
             return false;
-        }               
-    }    
+        }
+    }
 
 }
