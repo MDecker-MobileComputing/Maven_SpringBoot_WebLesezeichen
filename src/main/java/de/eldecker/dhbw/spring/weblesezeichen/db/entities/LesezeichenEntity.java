@@ -184,20 +184,14 @@ public class LesezeichenEntity {
     @Override
     public boolean equals( Object obj ) {
 
-        if ( this == obj ) {
+        if ( this == obj ) { return true; }
 
-            return true;
-        }
-        if ( obj == null ) {
-
-            return false;
-        }
+        if ( obj == null ) { return false; }
 
         if ( obj instanceof LesezeichenEntity anderesLesezeichen ) {
 
             return Objects.equals( name  , anderesLesezeichen.name   ) &&
                    Objects.equals( ordner, anderesLesezeichen.ordner );
-
         } else {
 
             return false;

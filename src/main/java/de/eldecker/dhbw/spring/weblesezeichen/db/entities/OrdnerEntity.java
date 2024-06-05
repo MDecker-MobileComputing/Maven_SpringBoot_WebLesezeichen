@@ -218,21 +218,15 @@ public class OrdnerEntity {
     @Override
     public boolean equals( Object obj ) {
         
-        if ( this == obj ) {
-            
-            return true;
-        }            
-        if ( obj == null ) {
-            
-            return false;
-        }
+        if ( this == obj ) { return true; }
+        
+        if ( obj == null ) { return false; }
         
         if ( obj instanceof OrdnerEntity andererOrdner ) {
         
             return Objects.equals( name       , andererOrdner.name        ) && 
                    Objects.equals( vater      , andererOrdner.vater       ) &&
-                   Objects.equals( lesezeichen, andererOrdner.lesezeichen );
-            
+                   Objects.equals( lesezeichen, andererOrdner.lesezeichen );            
         } else {
             
             return false;
